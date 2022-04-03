@@ -3,60 +3,51 @@
 {% block title %}Wördlfinder{% endblock %}
 
 {% block body %}
-    {{ include('global/navbar.html.twig') }}
-    <div class="container-fluid blue-container">
-        <div class="blue-inner-container">
-            <h1 class="text-center">{{ controller_name }}</h1>
-            <div class="text-center form-wrapper">
 
-                {{ form_start(form) }}
-                <div class="pb-20">
-                    <div class="container-fluid word-wrapper">
-                        {{ form_widget(form.position_1) }}
+    <h1 class="text-center">{{ controller_name }}</h1>
+    <div class="text-center form-wrapper">
 
-                        {{ form_widget(form.position_2) }}
+        {% form_theme form 'bootstrap_5_layout.html.twig' %}
 
-                        {{ form_widget(form.position_3) }}
+        {{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
+        <div class="pb-20">
+            <div class="container-fluid word-wrapper">
+                {{ form_widget(form.position_1) }}
 
-                        {{ form_widget(form.position_4) }}
+                {{ form_widget(form.position_2) }}
 
-                        {{ form_widget(form.position_5) }}
+                {{ form_widget(form.position_3) }}
 
-                        {{ form_widget(form.position_6) }}
-                    </div>
-                    <p class="text-green">
-                        Hier können die grün markierten Buchstaben eingetragen werden.<br>
-                        <span class="text-black">Wenn du nur 5 Buchstaben nutzen willst trage in das letzte Feld ein Minuszeichen(-) ein!<br>
-                        <small>Selbes gilt für Vier, mit zwei Minuszeichen usw.</small></span>
-                    </p>
+                {{ form_widget(form.position_4) }}
 
-                </div>
+                {{ form_widget(form.position_5) }}
 
-                <div class="container">
-                    <div class="mb-3">
-                        {{ form_label(form.charsWhichAreIn) }}
-                        {{ form_widget(form.charsWhichAreIn) }}
-                    </div>
-
-                    <div class="mb-3">
-                        {{ form_label(form.notAllowedChars) }}
-                        {{ form_widget(form.notAllowedChars) }}
-                    </div>
-                </div>
-                {{ form_end(form) }}
-
-                <div class="container mt-5 text-center">
-                    {% if words is defined %}
-                        <p>Ergebnisse: {{ words|length }}</p>
-
-                        <ul class="result-list list-group mt-3">
-                             {% for word in words %}
-                                <li class="list-group-item"> {{ word.word }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
+                {{ form_widget(form.position_6) }}
             </div>
+            <p class="text-green">
+                Hier können die grün markierten Buchstaben eingetragen werden.<br>
+                <span class="text-black">Wenn du nur 5 Buchstaben nutzen willst trage in das letzte Feld ein Minuszeichen(-) ein!<br>
+                        <small>Selbes gilt für Vier, mit zwei Minuszeichen usw.</small></span>
+            </p>
+
+        </div>
+
+        <div class="container">
+            {{ form_rest(form) }}
+        </div>
+        {{ form_end(form) }}
+
+        <div class="container mt-5 text-center">
+            {% if words is defined %}
+                <p>Ergebnisse: {{ words|length }}</p>
+
+                <ul class="result-list list-group mt-3">
+                    {% for word in words %}
+                        <li class="list-group-item"> {{ word.word }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
     </div>
+
 {% endblock %}

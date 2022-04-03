@@ -8,6 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class WordFinderFormType extends AbstractType
 {
@@ -29,7 +31,10 @@ class WordFinderFormType extends AbstractType
         $builder->add('position_6', TextType::class, $wordlyInputsConfig);
 
         $builder->add('notAllowedChars', TextType::class, [
-            'required' => false,
+            'required' => true,
+            'constraints' => [
+                new NotBlank(),
+            ],
             'label' => 'Buchstaben welche nicht vorkommen dürfen:',
             'attr' => [
                 'class' => 'form-control'
@@ -37,7 +42,7 @@ class WordFinderFormType extends AbstractType
         ]);
 
         $builder->add('charsWhichAreIn', TextType::class, [
-            'required' => false,
+            'required' => true,
             'label' => 'Buchstaben welche vorkommen müssen:',
             'attr' => [
                 'class' => 'form-control'
@@ -56,7 +61,6 @@ class WordFinderFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'method' => 'POST',
             'csrf_protection' => true,
             'csrf_field_name' => '_token',
             'csrf_token_id' => 'form_solver',
