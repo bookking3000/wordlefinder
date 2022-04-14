@@ -24,10 +24,12 @@
 
                 {{ form_widget(form.position_6) }}
             </div>
+
             <p class="text-green">
                 Hier können die grün markierten Buchstaben eingetragen werden.<br>
                 <span class="text-black">Wenn du nur 5 Buchstaben nutzen willst trage in das letzte Feld ein Minuszeichen(-) ein!<br>
-                        <small>Selbes gilt für Vier, mit zwei Minuszeichen usw.</small></span>
+                        <small>Selbes gilt für Vier, mit zwei Minuszeichen usw.</small>
+                </span>
             </p>
 
         </div>
@@ -37,7 +39,7 @@
         </div>
         {{ form_end(form) }}
 
-        <div class="container mt-5 text-center">
+        <div id="word-results-container" class="container mt-5 text-center">
             {% if words is defined %}
                 <p>Ergebnisse: {{ words|length }}</p>
 

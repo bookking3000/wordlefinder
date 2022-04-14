@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Word;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,10 +19,6 @@ class WordRepository extends ServiceEntityRepository
         parent::__construct($registry, Word::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Word $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
@@ -33,10 +27,6 @@ class WordRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Word $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
@@ -44,7 +34,6 @@ class WordRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
-
 
     public function findLikeWord($value, $mustHaveChars, $forbiddenChars, $length)
     {
@@ -58,7 +47,7 @@ class WordRepository extends ServiceEntityRepository
         $query->setParameter('val', $value);
         $query->setParameter('length', $length);
 
-        $i=0;
+        $i = 0;
         foreach ($forbiddenCharsAry as $forbiddenChar) {
             $forbiddenCharsQuery = '%' . $forbiddenChar . '%';
             $query->andWhere("w.word NOT LIKE :fcq$i");
@@ -66,11 +55,11 @@ class WordRepository extends ServiceEntityRepository
             $i++;
         }
 
-        $j=0;
+        $j = 0;
         foreach ($mustHaveCharsAry as $mustHaveChar) {
             $mustHaveCharsQuery = '%' . $mustHaveChar . '%';
-            $query->andWhere("w.word LIKE :acq$j");
-            $query->setParameter("acq$j", $mustHaveCharsQuery);
+            $query->andWhere("w.word LIKE :mhcq$j");
+            $query->setParameter("mhcq$j", $mustHaveCharsQuery);
             $j++;
         }
 

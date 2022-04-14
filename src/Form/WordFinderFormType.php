@@ -3,13 +3,13 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 
 class WordFinderFormType extends AbstractType
 {
@@ -20,15 +20,16 @@ class WordFinderFormType extends AbstractType
             'constraints' => new Length(['min' => 0, 'max' => 1]),
             'label' => false,
             'required' => false,
-            'attr' => ['class' => 'char-inp', 'maxlength' => 1]
+            'attr' => [
+                'class' => 'char-inp',
+                'maxlength' => 1,
+            ]
         ];
 
-        $builder->add('position_1', TextType::class, $wordlyInputsConfig);
-        $builder->add('position_2', TextType::class, $wordlyInputsConfig);
-        $builder->add('position_3', TextType::class, $wordlyInputsConfig);
-        $builder->add('position_4', TextType::class, $wordlyInputsConfig);
-        $builder->add('position_5', TextType::class, $wordlyInputsConfig);
-        $builder->add('position_6', TextType::class, $wordlyInputsConfig);
+        for ($i = 1; $i <= 6; $i++) {
+            $builder->add("position_$i", TextType::class, $wordlyInputsConfig);
+        }
+
 
         $builder->add('notAllowedChars', TextType::class, [
             'required' => true,
@@ -49,8 +50,26 @@ class WordFinderFormType extends AbstractType
             ]
         ]);
 
+
+        $builder->add('indexOfForbiddenChars', TextType::class, [
+            'required' => true,
+            'label_html' => true,
+            'label' => '<b>Neu:</b> Buchstaben welche an Stelle <span id="char_position">X</span> nicht vorkommen dürfen.',
+            'attr' => [
+                'class' => 'form-control'
+            ]
+        ]);
+
+
         $builder->add('save', SubmitType::class, [
-            'label' => 'Wörter finden!',
+            'label' => 'Wörter finden',
+            'attr' => [
+                'class' => 'btn btn-primary mt-3'
+            ]
+        ]);
+
+        $builder->add('reset', ResetType::class, [
+            'label' => 'Formular leeren',
             'attr' => [
                 'class' => 'btn btn-primary mt-3'
             ]
