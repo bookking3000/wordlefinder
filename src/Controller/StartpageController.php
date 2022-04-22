@@ -76,7 +76,7 @@ class StartpageController extends AbstractController
 
         $charArray = $this->getCharArray($data);
         $chars = implode('', $charArray);
-        $length = strlen($chars);
+        $length = mb_strlen($chars);
 
         $words = $managerRegistry->getRepository('App:Word')->findLikeWord($chars, $mustContainChars, $mustNotContainChars, $length);
         $words = $this->removeWordsWithCharsExcludedAtIndex($words);

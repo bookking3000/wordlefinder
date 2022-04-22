@@ -73,7 +73,7 @@ class ImportWordsCommand extends Command
         $stmt = $this->entityManager->getConnection()->prepare($sql);
         $result = $stmt->executeQuery([
             'word' => $word,
-            'length' => strlen($word),
+            'length' => mb_strlen($word),
             'created' => (new DateTime())->format('Y-m-d H:i:s'),
         ]);
 
