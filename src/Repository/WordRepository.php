@@ -35,7 +35,7 @@ class WordRepository extends ServiceEntityRepository
         }
     }
 
-    public function findLikeWord($value, $mustHaveChars, $forbiddenChars, $length)
+    public function findLikeWord($wordExpression, $mustHaveChars, $forbiddenChars, $length)
     {
         $mustHaveCharsAry = str_split($mustHaveChars);
         $forbiddenCharsAry = str_split($forbiddenChars);
@@ -44,7 +44,7 @@ class WordRepository extends ServiceEntityRepository
             ->andWhere('w.word LIKE :val')
             ->andWhere('w.length = :length');
 
-        $query->setParameter('val', $value);
+        $query->setParameter('val', $wordExpression);
         $query->setParameter('length', $length);
 
         $i = 0;
