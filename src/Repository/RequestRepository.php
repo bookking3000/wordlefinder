@@ -45,4 +45,15 @@ class RequestRepository extends ServiceEntityRepository
         }
     }
 
+    public function getLast24Hours(): array
+    {
+        $date = new \DateTime();
+        $date->modify('-24 hour');
+
+        $qb = $this->createQueryBuilder('r');
+        $qb->where('r.timestamp > :time_limit')
+            ->setParameter('time_limit', $date);
+        return $qb->getQuery()->getResult();
+    }
+
 }

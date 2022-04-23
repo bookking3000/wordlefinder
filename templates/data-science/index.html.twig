@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wördlfinder{% endblock %}
+
+{% block body %}
+
+
+    <h1 class="text-center">Stats</h1>
+    <div class="text-center">
+
+        <p>Hier siehst du die Komplexität der Anfragen der letzten 24 Stunden.</p>
+
+    </div>
+
+    {% if chart is defined %}
+        {{ render_chart(chart) }}
+    {% else %}
+        <p>Keine Daten verfügbar</p>
+    {% endif %}
+
+    <p>&nbsp;</p>
+
+    <div class="card text-white bg-primary mb-3" >
+        <div class="card-header">&nbsp;</div>
+        <div class="card-body">
+            <h5 class="card-title">Wie wird das hier berechnet?</h5>
+            <p class="card-text">
+                Zunächst wird ein Basisgewicht basierend auf dem 6-Stelligen Buchstaben-Input gebildet.<br>
+                <table class="table bg-light">
+                    <tr>
+                        <th>Art</th>
+                        <th>P-Faktor</th>
+                    </tr>
+                    <tr>
+                        <td>Umlaute</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Vokale</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>Konsonanten</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>Undefiniert</td>
+                        <td>100</td>
+                    </tr>
+                </table>
+                Die Buchstaben mit einem höheren P-Faktor erzeugen mehr Last.<br>
+                Leere Eingaben werden mit einem P-Faktor von 100 belegt, denn diese führen zu grossen Wortlisten.<br>
+                <br>
+                Anschließend wird von dieser Basiskomplexität, Komplexität abgezogen, entsprechend der Optionen die gesetzt wurden.<br>
+                Dabei gilt das oben beschriebene Mapping, jetzt allerdings per Subtraktion mit den folgenden Faktoren.<br>
+                <br>
+                <table class="table bg-light">
+                    <tr>
+                        <th>Option</th>
+                        <th>P-Faktor<sub>Sx</sub></th>
+                    </tr>
+                    <tr>
+                        <td>Buchstaben welche nicht vorkommen dürfen</td>
+                        <td>-1</td>
+                    </tr>
+                    <tr>
+                        <td>Buchstaben welche vorkommen müssen</td>
+                        <td>-1</td>
+                    </tr>
+                    <tr>
+                        <td>Indexierte Buchstaben welche nicht vorkommen dürfen</td>
+                        <td>-0,5</td>
+                    </tr>
+                </table>
+                <b>Beispiel:</b>
+                Wort: *üs** (* steht für leere Felder)<br>
+                Basisgewicht: 300 (*) + 3 (Ü = Umlaut) + 20 (S = Konsonant) = 323<br>
+                <br>
+                Nun schliessen wir folgende Buchstaben aus: 'abcn' - Das sind 3 Konsonanten und 1 Vokal.<br>
+                Das ergibt: 323 + (-1) * ((3 * 20) + (1 * 6)) = <b>257</b><br>
+                <br>
+                Jetzt darfst du ruhig deine eigenen Requests tracken.<br>
+
+            </p>
+        </div>
+    </div>
+
+    <p>More coming soon...</p>
+
+
+{% endblock %}

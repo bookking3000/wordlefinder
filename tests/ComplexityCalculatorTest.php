@@ -25,5 +25,16 @@ class ComplexityCalculatorTest extends TestCase
         //XYZABC now is forbidden and lowers complexity.
         $a = $complexityCalculator->calculateRequestComplexity($request,);
         $this->assertEquals(227, $a);
+
+        $request = new Request();
+        $request->setWordExpression('_üs__');
+        $request->setForbiddenChars('abcn');
+
+        $a = $complexityCalculator->calculateRequestComplexity($request, false);
+        $this->assertEquals(323, $a);
+
+        //XYZABC now is forbidden and lowers complexity.
+        $a = $complexityCalculator->calculateRequestComplexity($request,);
+        $this->assertEquals(257, $a);
     }
 }
