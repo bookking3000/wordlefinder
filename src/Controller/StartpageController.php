@@ -113,15 +113,22 @@ class StartpageController extends AbstractController
     protected function removeWordsWithCharsExcludedAtIndex($words, $forbiddenCharsAtSpecifiedPositions)
     {
         if ($forbiddenCharsAtSpecifiedPositions != null) {
+
             $forbiddenCharsAtSpecifiedPositions = explode(',', $forbiddenCharsAtSpecifiedPositions);
-            foreach ($forbiddenCharsAtSpecifiedPositions as $charIndex => $forbiddenChar) {
-                if (empty($forbiddenChar))
+
+            foreach ($forbiddenCharsAtSpecifiedPositions as $charIndex => $forbiddenCharExpression) {
+                if (empty($forbiddenCharExpression))
                     continue;
 
                 foreach ($words as $key => $word) {
-                    $char = (substr($word, $charIndex - 1, 1));
-                    if ($char == $forbiddenChar)
-                        unset($words[$key]);
+                    $observedChar = mb_substr($word, $charIndex - 1, 1);
+                    $forbiddenChars = mb_str_split($forbiddenCharExpression);
+                    foreach ($forbiddenChars as $forbiddenChar) {
+                        if ($forbiddenChar == $observedChar) {
+                            unset($words[$key]);
+                        }
+                    }
+
                 }
             }
         }
