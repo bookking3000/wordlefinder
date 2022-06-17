@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DocumentationController!{% endblock %}
+
+{%  block javascripts %}
+    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
+{% endblock %}
+
+{% block body %}
+    <div id="swagger-ui"></div>
+    <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-bundle.js" crossorigin></script>
+    <script>
+        window.onload = () => {
+            window.ui = SwaggerUIBundle({
+                url: '/openapi/WordsApiV100.yaml',
+                dom_id: '#swagger-ui',
+            });
+        };
+    </script>
+{% endblock %}

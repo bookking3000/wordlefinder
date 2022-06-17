@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Word;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -33,6 +34,25 @@ class WordRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    public function findByLength($length): Query
+    {
+        $query = $this->createQueryBuilder('w')
+            ->andWhere('w.length = :length');
+
+        $query->setParameter('length', $length);
+
+        return $query->getQuery();
+    }
+
+    public function findByStart($wordStartExpression)
+    {
+        $query = $this->createQueryBuilder('w')
+            ->andWhere('w.word LIKE :val');
+
+        $query->setParameter('val', $wordStartExpression);
+        return $query->getQuery()->getResult();
     }
 
     public function findLikeWord($wordExpression, $mustHaveChars, $forbiddenChars, $length)

@@ -1,0 +1,108 @@
+openapi: 3.0.3
+info:
+  title: Wordlefinder - Words API
+  description: Wordlefinder - Find german Words using this API.
+  version: 1.0.0
+servers:
+  - url: https://wordlefinder.ixtomix.codes/api/words
+paths:
+  /by-length:
+    get:
+      summary: Get all Words by a specifiedLength. The Response is paginated, 50 Words are displayed per Page.
+      parameters:
+        - in: query
+          name: length
+          required: true
+          description: The desired length of your Words.
+          schema:
+            type: integer
+            example: 5
+        - in: query
+          name: page
+          required: true
+          description: The page you want to get, default Page is zero.
+          schema:
+            type: integer
+            example: 1
+
+
+      responses:
+        '200':
+          description: The Request was successfull. Returns an JSON encoded array of Strings.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "OK"
+                  pages:
+                    type: integer
+                    description: The number of pages available.
+                    example: 133
+                  result:
+                    type: string
+                    example:
+                      - "Apfel"
+                      - "Tonne"
+
+
+        '400':
+          description: There was an error getting Words. Returns an JSON encoded array.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: NOK
+                  message:
+                    type: string
+                    description: An Error Message.
+                    example: There was an error getting the length parameter.
+
+  /is-known:
+    get:
+      summary: Get if a word is known by our Servers
+      parameters:
+        - in: query
+          name: word
+          required: true
+          description: The searched Word.
+          schema:
+            type: string
+            example: "Apfel"
+
+
+      responses:
+        '200':
+          description: The Request was successfull. Returns an JSON encoded array.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "OK"
+                  result:
+                    type: boolean
+                    example:
+                      - true
+
+
+        '400':
+          description: There was an Error getting the word Parameter from your Request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: NOK
+                  message:
+                    type: string
+                    description: An Error Message.
