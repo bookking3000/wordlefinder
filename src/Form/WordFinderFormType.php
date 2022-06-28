@@ -37,6 +37,7 @@ class WordFinderFormType extends AbstractType
                 new NotBlank(),
             ],
             'label' => 'Buchstaben welche nicht vorkommen dürfen:',
+            'help' => 'Pflichtfeld',
             'attr' => [
                 'class' => 'form-control'
             ]
@@ -54,7 +55,8 @@ class WordFinderFormType extends AbstractType
         $builder->add('indexOfForbiddenChars', TextType::class, [
             'required' => true,
             'label_html' => true,
-            'label' => '<b>Neu:</b> Buchstaben welche an Stelle <span id="char_position">X</span> nicht vorkommen dürfen.',
+            'label' => 'Buchstaben welche an Stelle <span id="char_position">X</span> nicht vorkommen dürfen.',
+            'help' => 'Bitte wähle dafür oben entsprechend eins der Input-Felder aus',
             'attr' => [
                 'class' => 'form-control'
             ]

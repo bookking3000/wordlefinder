@@ -124,7 +124,7 @@ class StartpageController extends AbstractController
                     $observedChar = mb_substr($word, $charIndex - 1, 1);
                     $forbiddenChars = mb_str_split($forbiddenCharExpression);
                     foreach ($forbiddenChars as $forbiddenChar) {
-                        if ($forbiddenChar == $observedChar) {
+                        if (mb_strtolower($forbiddenChar) == mb_strtolower($observedChar)) {
                             unset($words[$key]);
                         }
                     }

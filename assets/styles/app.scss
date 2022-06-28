@@ -33,6 +33,12 @@ body {
     letter-spacing: .6ch;
 }
 
+.char-inp:not(:focus){
+    color: white;
+    background: green;
+}
+
+
 .char-inp:focus{
     outline: none;
     color: dodgerblue;
